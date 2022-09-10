@@ -1,4 +1,5 @@
 import React from "react";
+import Hero from "./componets/Hero";
 import Navbar from './componets/Navbar';
 
 function App() {
@@ -6,6 +7,7 @@ function App() {
     <div className="App">
     
       <Navbar></Navbar>
+      <Hero></Hero>
       
     </div>
   );
