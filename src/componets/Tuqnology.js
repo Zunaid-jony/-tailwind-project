@@ -5,7 +5,7 @@ const Tuqnology = () => {
     return (
         <div className='w-full bg-white py-16 px-4'>
            <div className='max-w-[1240px] mx-auto grid md:grid-cols-2'>
-           <img className='w-[500px] mx-auto my-4' src={IMG} alt="" />
+           <img className='w-[500px] mx-auto my-4 animate-pulse transform hover:scale-125' src={IMG} alt="" />
 
            <div className='flex flex-col justify-center'>
             <p className='uppercase text-[#00df93] font-bold'>Lorem ipsum dolor sit amet.</p>

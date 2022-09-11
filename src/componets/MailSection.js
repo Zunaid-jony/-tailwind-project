@@ -8,7 +8,7 @@ const MailSection = () => {
                
         
                 <div className='lg:col-span-2 px-4'>
-                    <h1 className='md:text-4xl sm:text-3xl text-2xl font-bold py-2 '>Lorem ipsum dolor sit amet consectetur.</h1>
+                    <h1 className='md:text-4xl sm:text-3xl text-2xl font-bold py-2 mt-8'>Lorem ipsum dolor sit amet consectetur.</h1>
                     <p>Lorem ipsum, dolor sit amet conse</p>
                 </div>
                 <div className='my-4 '>
