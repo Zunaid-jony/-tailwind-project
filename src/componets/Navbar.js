@@ -10,7 +10,10 @@ const Navbar = () => {
 
   return (
     <div className='flex justify-between items-center h-24 max-w-[1240px] mx-auto px-4 text-white'>
-      <h1 className='w-full text-3xl font-bold bg-gradient-to-r text-transparent bg-clip-text from-green-500 to-blue-600 hover:from-pink-500 hover:to-yellow-500'>TAILWIND </h1>
+      <h1 className='w-full text-3xl font-bold bg-gradient-to-r text-transparent bg-clip-text from-green-500 to-blue-600 hover:from-pink-500 hover:to-yellow-500'>
+      <img className='w-20' src="https://i.ibb.co.com/BVw5ypm/vocabulary-removebg-preview.png" alt="vocabulary-removebg-preview" border="0"/>
+        
+         </h1>
       <ul className='hidden md:flex'>
         <li className='p-4'>Home</li>
         <li className='p-4'>Company</li>

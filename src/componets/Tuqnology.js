@@ -8,9 +8,10 @@ const Tuqnology = () => {
            <img className='w-[500px] mx-auto my-4 animate-pulse transform hover:scale-125' src={IMG} alt="" />
 
            <div className='flex flex-col justify-center'>
-            <p className='uppercase text-[#00df93] font-bold'>Lorem ipsum dolor sit amet.</p>
-            <h1 className='md:text-4xl sm:text-3xl text-2xl font-bold py-2'>Lorem ipsum dolor sit amet consectetur.</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex saepe, magni eius eaque delectus dignissimos atque quidem facilis! Nisi, consequatur?</p>
+            <p className='uppercase text-[#00df93] font-bold'>IELTS (International English Language Testing System).</p>
+            <h3 className='md:text-2xl sm:text-3xl text-2xl font-bold py-2 uppercase'>
+            IELTS is a test that measures English proficiency for university, It tests Listening, Reading, Writing, and Speaking skills.</h3>
+            <p>IELTS has two types: Academic, for higher education, and General Training, for migration or work.</p>
             <button className='text-white  w-100% bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 w-[200px] rounded-md mx-auto font-medium my-6 py-3 text-center md:mx-0'>Get Stated</button>
            </div>
 
