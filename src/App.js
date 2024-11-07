@@ -4,6 +4,7 @@ import MailSection from "./componets/MailSection";
 import Navbar from './componets/Navbar';
 import Tuqnology from './componets/Tuqnology';
 import Home from "./componets/Home";
+import Footer from "./componets/Footer";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <br></br>
       <br></br>
       <br></br>
+      <Footer></Footer>
 
       </div>
       {/* <Hero></Hero> */}

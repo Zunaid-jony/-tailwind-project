@@ -16,7 +16,7 @@ const HomeModal = ({ onClose, data }) => {
     // Clear the "bangla" field when page changes
     const updatedData = editableData.map((item) => ({
       ...item,
-      bangla: "", // Reset "bangla" field on page change
+      bangla1: "", // Reset "bangla" field on page change
     }));
     setEditableData(updatedData);
   };
@@ -59,7 +59,7 @@ const HomeModal = ({ onClose, data }) => {
   // Handle the edit of Bangla column
   const handleBanglaChange = (e, index) => {
     const updatedData = [...editableData];
-    updatedData[index].bangla = e.target.value; // Update the Bangla text
+    updatedData[index].bangla1 = e.target.value; // Update the Bangla text
     setEditableData(updatedData); // Set the new data state
   };
 
@@ -74,7 +74,7 @@ const HomeModal = ({ onClose, data }) => {
 
     // Loop over the current page data and check the result
     currentData.forEach((item, idx) => {
-      const updatedBangla = item.bangla ? item.bangla.trim().toLowerCase() : "";
+      const updatedBangla = item.bangla1 ? item.bangla1.trim().toLowerCase() : "";
       const originalTitle = item.title ? item.title.trim().toLowerCase() : "";
 
       if (updatedBangla === originalTitle) {
@@ -105,7 +105,7 @@ const HomeModal = ({ onClose, data }) => {
     <div className="fixed inset-0 bg-black bg-opacity-20 flex justify-center items-center z-50">
       <div className="bg-white p-8 rounded-lg shadow-lg w-5/6 max-w-5xl">
         <div className="flex justify-between -mt-4">
-          <h3 className="text-xl font-semibold mb-4">Vocabulary List</h3>
+          <h3 className="text-xl font-semibold mb-4">Vocabulary Exam</h3>
          
           <button
   className="px-4 bg-blue-500 text-white rounded flex items-center"
@@ -122,23 +122,25 @@ const HomeModal = ({ onClose, data }) => {
             <tr>
               <th className="border border-gray-300 p-2 text-left">SL No</th>
               <th className="border border-gray-300 p-2 text-left">
-                Vocabulary
+              Bangla
               </th>
-              <th className="border border-gray-300 p-2 text-left">Bangla</th>
+              <th className="border border-gray-300 p-2 text-left"> Vocabulary</th>
             </tr>
           </thead>
           <tbody>
             {currentData.map((item, idx) => (
+
               <tr key={item.id} className={idx % 2 === 0 ? "bg-gray-100" : ""}>
+                {console.log("item",item)}
                 <td className="border border-gray-300 p-2">
                   {(currentPage - 1) * itemsPerPage + idx + 1}
                 </td>
-                <td className="border border-gray-300 p-2">{item.title}</td>
+                <td className="border border-gray-300 p-2">{item?.bangla}</td>
                 <td className="border border-gray-300 p-2">
                   {/* Input for Bangla column with dynamic styling */}
                   <input
                     type="text"
-                    value={item.bangla}
+                    value={item.bangla1}
                     onChange={(e) =>
                       handleBanglaChange(
                         e,
@@ -146,7 +148,7 @@ const HomeModal = ({ onClose, data }) => {
                       )
                     }
                     className={`border px-2 py-1 w-full ${getTextFieldStyle(
-                      item.bangla,
+                      item.bangla1,
                       item.title,
                       item.resultStatus
                     )}`}
