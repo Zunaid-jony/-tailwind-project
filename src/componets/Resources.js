@@ -2,63 +2,53 @@ import React, { useState } from "react";
 import data from "./VocabData"; // Import the data from data.js
 import HomeModal from "./HomeModal";
 import Tuqnology from "./Tuqnology";
-import Footer from "./Footer";
 
-const Home = () => {
+const Resources = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedRow, setSelectedRow] = useState(null); // Track the selected row
   const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
   const [searchTerm, setSearchTerm] = useState(""); // State for search term
-  const itemsPerPage = 20;
-
-  // Filter data based on search term (before pagination)
+  const itemsPerPage = 220;
+  
+  // Apply search to the entire data
   const filteredData = data.filter(
     (item) =>
       item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.bangla.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Calculate the number of pages based on the filtered data
+  // Calculate total pages based on filtered data
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
-  // Slice the filtered data for the current page
+  // Get the data for the current page
   const currentData = filteredData.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
-  // Pagination handler
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
-  // Row selection handler
   const handleRowClick = (idx) => {
     setSelectedRow(idx); // Set the clicked row as selected
   };
 
-  // Open Modal Handler (When Exam is clicked)
   const handleExamClick = () => {
     setIsModalOpen(true); // Open the modal
     setCurrentPage(2); // Example to change the page on exam click
   };
 
-  // Close Modal Handler
   const closeModal = () => {
     setIsModalOpen(false);
   };
 
-  // Pagination logic: Show 5 page numbers around the current page, with 1, 2, 3, 4, 5 and the last page
   const paginationRange = () => {
     let start = Math.max(currentPage - 2, 1);
     let end = Math.min(currentPage + 2, totalPages);
-
-    // If we are near the start, adjust the range to show earlier pages
     if (currentPage <= 3) {
       end = Math.min(5, totalPages);
     }
-
-    // If we are near the end, adjust the range to show the last pages
     if (currentPage >= totalPages - 2) {
       start = Math.max(totalPages - 4, 1);
     }
@@ -67,8 +57,6 @@ const Home = () => {
     for (let i = start; i <= end; i++) {
       range.push(i);
     }
-
-    // Add the last page to the pagination if it's not already in the range
     if (totalPages > 5 && !range.includes(totalPages)) {
       range.push(totalPages);
     }
@@ -78,12 +66,9 @@ const Home = () => {
 
   return (
     <div className="container bg-white ml-auto mr-auto">
-      <Tuqnology />
       <br />
       <br />
-      <br />
-      
-      <div className="text-center relative">
+      <div className="text-center relative mt-20">
         <p className="uppercase font-bold text-lg text-black inline-block mb-2">
           Best Common Vocabulary
         </p>
@@ -182,7 +167,7 @@ const Home = () => {
                   : idx % 2 === 0
                   ? "bg-gray-100"
                   : "bg-white"
-              }`} // Apply background color if selected or alternate between gray and white
+              }`}
             >
               <td className="border border-black print:!border-black">
                 <div className="text-center text-xs w-10">
@@ -199,10 +184,10 @@ const Home = () => {
               >
                 <div className="ml-6">{p?.title}</div>
               </td>
-              <td className={`border border-black print:!border-black text-left cursor-pointer`}>
-                <div className="text-xs font-normal">{}</div>
+              <td className="border border-black print:!border-black text-left cursor-pointer">
+                <div className="text-xs font-normal"></div>
               </td>
-              <td className={`border border-black print:!border-black text-left cursor-pointer`}>
+              <td className="border border-black print:!border-black text-left cursor-pointer">
                 <div className="text-xs font-normal ml-6">{p?.bangla}</div>
               </td>
             </tr>
@@ -225,7 +210,6 @@ const Home = () => {
             className={`px-3 py-1 rounded ${
               currentPage === page ? "bg-blue-500 text-white" : "bg-gray-200"
             }`}
-           
             onClick={() => handlePageChange(page)}
           >
             {page}
@@ -240,13 +224,14 @@ const Home = () => {
         </button>
       </div>
 
-      {/* Modal Component */}
-      {isModalOpen && <HomeModal closeModal={closeModal} />}
-     <br></br>
-     <br></br>
-     <br></br>
+      {isModalOpen && (
+        <HomeModal data={data} onClose={() => setIsModalOpen(false)} />
+      )}
+      <br />
+      <br />
+      <br />
     </div>
   );
 };
 
-export default Home;
+export default Resources;
