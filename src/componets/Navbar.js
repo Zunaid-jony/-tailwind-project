@@ -66,7 +66,8 @@ const Navbar = () => {
             </h1>
           </div>
           {/* <li className='p-4 border-b border-gray-600'><Link to="/" onClick={handleNav}>Home</Link></li> */}
-          <li className='p-4 border-b text-white font-bold border-gray-600'><Link to="/resources" onClick={handleNav}>Resources</Link></li>
+          <li className='p-4 border-b text-black font-bold border-gray-600'><Link to="/resources" >Resources</Link></li>
+          {/* onClick={handleNav} */}
           
           <li className='p-4'>Contact</li>
         </ul>

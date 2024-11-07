@@ -241,7 +241,7 @@ const Home = () => {
       </div>
 
       {/* Modal Component */}
-      {isModalOpen && <HomeModal closeModal={closeModal} />}
+      {isModalOpen &&   <HomeModal data={data} onClose={() => setIsModalOpen(false)} />}
      <br></br>
      <br></br>
      <br></br>

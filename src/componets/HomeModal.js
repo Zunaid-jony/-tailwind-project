@@ -99,11 +99,11 @@ const HomeModal = ({ onClose, data }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-20 flex justify-center items-center z-50">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-5/6 max-w-5xl">
-        <div className="flex justify-between -mt-4">
-          <h3 className="text-xl font-semibold mb-4">Vocabulary Exam</h3>
+      <div className="bg-white p-6 sm:p-8 rounded-lg shadow-lg w-full sm:w-5/6 max-w-5xl">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-xl font-semibold">Vocabulary Exam</h3>
           <button
-            className="px-4 bg-blue-500 text-white rounded flex items-center"
+            className="px-4 py-2 bg-blue-500 text-white rounded flex items-center"
             onClick={onClose}
           >
             <span className="material-icons mr-2">close</span> {/* Material Icon */}
@@ -180,15 +180,13 @@ const HomeModal = ({ onClose, data }) => {
         </div>
 
         {/* Result Button */}
-        <div className="flex justify-between -mt-14">
-          <div className="flex justify-center mt-4">
-            <button
-              className="px-6 py-2 bg-blue-500 text-white rounded flex items-center"
-              onClick={handleResultClick}
-            >
-              <span className="material-icons mr-2">check_circle</span> Check Results
-            </button>
-          </div>
+        <div className="flex justify-center mt-4">
+          <button
+            className="px-6 py-2 bg-blue-500 text-white rounded flex items-center"
+            onClick={handleResultClick}
+          >
+            <span className="material-icons mr-2">check_circle</span> Check Results
+          </button>
         </div>
       </div>
     </div>
