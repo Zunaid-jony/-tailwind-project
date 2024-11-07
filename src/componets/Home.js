@@ -46,7 +46,7 @@ const Home = () => {
       item.bangla.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Pagination logic: Show 5 page numbers around the current page
+  // Pagination logic: Show 5 page numbers around the current page, with 1, 2, 3, 4, 5 and the last page
   const paginationRange = () => {
     let start = Math.max(currentPage - 2, 1);
     let end = Math.min(currentPage + 2, totalPages);
@@ -65,6 +65,12 @@ const Home = () => {
     for (let i = start; i <= end; i++) {
       range.push(i);
     }
+
+    // Add the last page to the pagination if it's not already in the range
+    if (totalPages > 5 && !range.includes(totalPages)) {
+      range.push(totalPages);
+    }
+
     return range;
   };
 
@@ -99,7 +105,6 @@ const Home = () => {
 
       {/* Search input above the table */}
       <div className=" mb-16 -mt-6">
-       
         <div className="flex justify-between">
           <p className="text-white">.</p>
           <button
@@ -112,36 +117,35 @@ const Home = () => {
         </div>
       </div>
 
-      {/* <div className="flex justify-between  mb-4">
-        <p></p>
-      <input
-          type="text"
-          className="py-2 px-4 border rounded-md w-full md:w-1/2"
-          placeholder="Search by Vocabulary or Bangla"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div> */}
-
-<div className="flex justify-between items-center mb-6">
-  <p className="text-xl font-semibold">Search Vocabulary</p>
-  <div className="relative w-full md:w-1/2">
-    <input
-      type="text"
-      className="py-2 pl-10 pr-4 border-2 rounded-full w-full bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300 ease-in-out"
-      placeholder="Search Vocabulary or Bangla"
-      value={searchTerm}
-      onChange={(e) => setSearchTerm(e.target.value)}
-    />
-    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
-      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 4a7 7 0 1113.93 13.93 7 7 0 01-13.93-13.93z" />
-      </svg>
-    </span>
-  </div>
-</div>
-
-
+      {/* Search input */}
+      <div className="flex justify-between items-center mb-6">
+        <p className="text-xl font-semibold">Search Vocabulary</p>
+        <div className="relative w-full md:w-1/2">
+          <input
+            type="text"
+            className="py-2 pl-10 pr-4 border-2 rounded-full w-full bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300 ease-in-out"
+            placeholder="Search Vocabulary or Bangla"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M11 4a7 7 0 1113.93 13.93 7 7 0 01-13.93-13.93z"
+              />
+            </svg>
+          </span>
+        </div>
+      </div>
 
       {/* Vocabulary Table */}
       <table className="table-auto w-full">
@@ -166,8 +170,12 @@ const Home = () => {
             <tr
               key={idx}
               className={`${
-                selectedRow === idx ? "bg-blue-100" : idx % 2 === 0 ? "bg-gray-100" : "bg-white"
-              }`} // Apply background color if selected or alternate between gray and white
+                selectedRow === idx
+                  ? "bg-blue-100"
+                  : idx % 2 === 0
+                  ? "bg-gray-100"
+                  : "bg-white"
+              } `  } // Apply background color if selected or alternate between gray and white
             >
               <td className="border border-black print:!border-black">
                 <div className="text-center text-xs w-10">
@@ -177,15 +185,22 @@ const Home = () => {
                 </div>
               </td>
               <td
-                className="border border-black print:!border-black text-left cursor-pointer"
+                // className="border border-black print:!border-black text-left cursor-pointer"
+                className={`border border-black print:!border-black text-left cursor-pointer ${
+                  p?.title === "IELTS" ? "bg-green-500 font-bold" : ""
+                }`}
                 onClick={() => handleRowClick(idx)}
               >
-                <div className="text-xs font-normal ml-6">{p?.title}</div>
+                <div className="ml-6">{p?.title}</div>
               </td>
-              <td className="border border-black print:!border-black text-left">
+              <td className={`border border-black print:!border-black text-left cursor-pointer ${
+                  p?.title === "IELTS" ? "bg-green-500 font-bold" : ""
+                }`}>
                 <div className="text-xs font-normal">{}</div>
               </td>
-              <td className="border border-black print:!border-black text-left">
+              <td className={`border border-black print:!border-black text-left cursor-pointer ${
+                  p?.title === "IELTS" ? "bg-green-500 font-bold" : ""
+                }`}>
                 <div className="text-xs font-normal ml-6">{p?.bangla}</div>
               </td>
             </tr>
@@ -222,7 +237,13 @@ const Home = () => {
         </button>
       </div>
 
-      {/* Modal */}
+      {/* {isModalOpen && selectedRow !== null && (
+        <HomeModal
+          selectedRowData={data[selectedRow]} // Pass the selected row data to the modal
+          closeModal={closeModal} // Function to close the modal
+        />
+      )} */}
+
       {isModalOpen && (
         <HomeModal data={data} onClose={() => setIsModalOpen(false)} />
       )}

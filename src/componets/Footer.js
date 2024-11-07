@@ -29,8 +29,10 @@ const Footer = () => {
         {/* Contact Section */}
         <div>
           <h2 className='text-2xl font-bold mb-4'>Contact Us</h2>
-          <p className='text-gray-300 mb-2'>Email: info@ieltsacademy.com</p>
-          <p className='text-gray-300 mb-2'>Phone: +1 (234) 567-890</p>
+          <p className='text-gray-300 mb-2'>Name: Md Jony</p>
+          <p className='text-gray-300 mb-2'>Email: md.jony.soft@gmail.com</p>
+          
+          <p className='text-gray-300 mb-2'>Phone: +880 1627392820</p>
           <p className='text-gray-300'>Address: 123 IELTS Ave, Language City, Country</p>
           
           {/* Social Media Icons */}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 const HomeModal = ({ onClose, data }) => {
   const itemsPerPage = 8;
@@ -24,28 +24,24 @@ const HomeModal = ({ onClose, data }) => {
   // Helper to create pagination range
   const generatePaginationRange = () => {
     const paginationRange = [];
-    const maxPageButtons = 7; // Max number of pages to show at a time
+    const maxPageButtons = 5; // Max number of pages to show at a time
+    const lastPage = totalPages;
 
-    const halfRange = Math.floor(maxPageButtons / 2);
+    let startPage = Math.max(1, currentPage - Math.floor(maxPageButtons / 2));
+    let endPage = Math.min(totalPages, startPage + maxPageButtons - 1);
 
-    let startPage = Math.max(1, currentPage - halfRange);
-    let endPage = Math.min(totalPages, currentPage + halfRange);
-
-    if (currentPage - startPage < halfRange) {
-      endPage = Math.min(
-        totalPages,
-        endPage + (halfRange - (currentPage - startPage))
-      );
-    }
-    if (endPage - currentPage < halfRange) {
-      startPage = Math.max(
-        1,
-        startPage - (halfRange - (endPage - currentPage))
-      );
+    if (endPage - startPage < maxPageButtons - 1) {
+      startPage = Math.max(1, endPage - maxPageButtons + 1);
     }
 
     for (let i = startPage; i <= endPage; i++) {
       paginationRange.push(i);
+    }
+
+    // Add last page if not already included
+    if (!paginationRange.includes(lastPage) && lastPage > 5) {
+      paginationRange.push("...");
+      paginationRange.push(lastPage);
     }
 
     return paginationRange;
@@ -106,14 +102,13 @@ const HomeModal = ({ onClose, data }) => {
       <div className="bg-white p-8 rounded-lg shadow-lg w-5/6 max-w-5xl">
         <div className="flex justify-between -mt-4">
           <h3 className="text-xl font-semibold mb-4">Vocabulary Exam</h3>
-         
           <button
-  className="px-4 bg-blue-500 text-white rounded flex items-center"
-  onClick={onClose}
->
-  <span className="material-icons mr-2">close</span> {/* Material Icon */}
-  Close
-</button>
+            className="px-4 bg-blue-500 text-white rounded flex items-center"
+            onClick={onClose}
+          >
+            <span className="material-icons mr-2">close</span> {/* Material Icon */}
+            Close
+          </button>
         </div>
 
         {/* Table inside modal */}
@@ -121,17 +116,13 @@ const HomeModal = ({ onClose, data }) => {
           <thead>
             <tr>
               <th className="border border-gray-300 p-2 text-left">SL No</th>
-              <th className="border border-gray-300 p-2 text-left">
-              Bangla
-              </th>
-              <th className="border border-gray-300 p-2 text-left"> Vocabulary</th>
+              <th className="border border-gray-300 p-2 text-left">Bangla</th>
+              <th className="border border-gray-300 p-2 text-left">Vocabulary</th>
             </tr>
           </thead>
           <tbody>
             {currentData.map((item, idx) => (
-
               <tr key={item.id} className={idx % 2 === 0 ? "bg-gray-100" : ""}>
-                {console.log("item",item)}
                 <td className="border border-gray-300 p-2">
                   {(currentPage - 1) * itemsPerPage + idx + 1}
                 </td>
@@ -142,10 +133,7 @@ const HomeModal = ({ onClose, data }) => {
                     type="text"
                     value={item.bangla1}
                     onChange={(e) =>
-                      handleBanglaChange(
-                        e,
-                        (currentPage - 1) * itemsPerPage + idx
-                      )
+                      handleBanglaChange(e, (currentPage - 1) * itemsPerPage + idx)
                     }
                     className={`border px-2 py-1 w-full ${getTextFieldStyle(
                       item.bangla1,
@@ -189,21 +177,16 @@ const HomeModal = ({ onClose, data }) => {
           >
             Next
           </button>
-          <div className="flex justify-center mt-4"></div>
         </div>
 
         {/* Result Button */}
         <div className="flex justify-between -mt-14">
-          <p></p>
           <div className="flex justify-center mt-4">
             <button
               className="px-6 py-2 bg-blue-500 text-white rounded flex items-center"
               onClick={handleResultClick}
             >
-              {/* Material Icon */}
-              <span className="material-icons mr-2">check_circle</span>{" "}
-              {/* Check Icon */}
-              Check Results
+              <span className="material-icons mr-2">check_circle</span> Check Results
             </button>
           </div>
         </div>
