@@ -1,11 +1,8 @@
 import React, { useState } from "react";
-import data from "./VocabData"; // Import the data from data.js
+import vocabData from "./MonjarinVocab"; // Import the data from data.js
 import HomeModal from "./HomeModal";
-import Tuqnology from "./Tuqnology";
-import Footer from "./Footer";
-import BasicVocab from "./BasicVocab";
 
-const Home = () => {
+const BasicVocab = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedRow, setSelectedRow] = useState(null); // Track the selected row
   const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
@@ -13,10 +10,12 @@ const Home = () => {
   const itemsPerPage = 20;
 
   // Filter data based on search term (before pagination)
-  const filteredData = data.filter(
+  const filteredData = vocabData.filter(
     (item) =>
       item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.bangla.toLowerCase().includes(searchTerm.toLowerCase())
+      item.bangla.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.synonymous.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.sentence.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   // Calculate the number of pages based on the filtered data
@@ -78,15 +77,17 @@ const Home = () => {
   };
 
   return (
-    <div className="container bg-white ml-auto mr-auto">
-      <Tuqnology />
+    <div className="container bg-white ml-auto mr-auto mt-4">
       <br />
-      <br />
-      <br />
-      
       <div className="text-center relative">
-        <p className="uppercase font-bold text-lg text-black inline-block mb-2">
-          Best Common Vocabulary
+        <img
+          className="ml-auto mr-auto h-16"
+          src="https://i.ibb.co.com/vZgmcXj/Screenshot-2024-11-08-203802.png"
+          alt="Screenshot-2024-11-08-203802"
+          border="0"
+        />
+        <p className="uppercase font-bold text-lg text-black inline-block mb-2 mt-2">
+          vocabulary munzereen
         </p>
         <svg
           className="absolute left-1/2 transform -translate-x-1/2 bottom-0"
@@ -111,21 +112,8 @@ const Home = () => {
         </svg>
       </div>
 
-      {/* Search input above the table */}
-      {/* <div className="mb-16 -mt-6">
-        <div className="flex justify-between">
-          <p className="text-white">.</p>
-          <button
-            className="-mt-4 flex items-center justify-center gap-2 py-2 px-6 text-white bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg shadow-lg hover:from-blue-600 hover:to-indigo-700 focus:outline-none focus:ring-4 focus:ring-blue-400 transform transition-all duration-200 ease-in-out"
-            onClick={handleExamClick}
-          >
-            <span className="material-icons">school</span>
-            <span className="text-lg font-semibold">Exam</span>
-          </button>
-        </div>
-      </div> */}
 
-<div className="md:mb-16 sm:mb-6 -mt-6">
+      <div className="md:mb-16 sm:mb-6 -mt-6">
   <div className="flex flex-col md:flex-row md:justify-between items-center">
     <p className="text-white hidden md:block">.</p>
     <button
@@ -138,7 +126,6 @@ const Home = () => {
   </div>
 </div>
 
-
       {/* Search input */}
       <div className="flex justify-between items-center mb-6 mt-2">
         <p className="text-xl font-semibold">Search Vocabulary</p>
@@ -146,7 +133,7 @@ const Home = () => {
           <input
             type="text"
             className="py-2 pl-10 pr-4 border-2 rounded-full w-full bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300 ease-in-out"
-            placeholder="Search Vocabulary or Bangla"
+            placeholder="Search Vocabulary, Bangla, Synonym, or Sentence"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -176,15 +163,10 @@ const Home = () => {
             <th className="border border-black text-xs print:!border-black w-10">
               <div className="w-10 text-center">SL No</div>
             </th>
-            <th className="border border-black text-xs print:!border-black">
-              Vocabulary
-            </th>
-            <th className="border border-black text-xs print:!border-black">
-              Synonym
-            </th>
-            <th className="border border-black text-xs print:!border-black">
-              Bangla
-            </th>
+            <th className="border border-black text-xs print:!border-black">Vocabulary</th>
+            <th className="border border-black text-xs print:!border-black">Bangla</th>
+            <th className="border border-black text-xs print:!border-black">Synonym</th>
+            <th className="border border-black text-xs print:!border-black">Sentence</th>
           </tr>
         </thead>
         <tbody className="print:mt-4 p-1">
@@ -215,10 +197,13 @@ const Home = () => {
                 <div className="ml-6">{p?.title}</div>
               </td>
               <td className={`border border-black print:!border-black text-left cursor-pointer`}>
-                <div className="text-xs font-normal">{}</div>
+                <div className="text-xs font-normal ml-6">{p?.bangla}</div>
               </td>
               <td className={`border border-black print:!border-black text-left cursor-pointer`}>
-                <div className="text-xs font-normal ml-6">{p?.bangla}</div>
+                <div className="text-xs font-normal">{p?.synonymous}</div>
+              </td>
+              <td className={`border border-black print:!border-black text-left cursor-pointer`}>
+                <div className="text-xs font-normal">{p?.sentence}</div>
               </td>
             </tr>
           ))}
@@ -226,7 +211,7 @@ const Home = () => {
       </table>
 
       {/* Pagination Controls */}
-      <div className="flex justify-center mt-4 space-x-2">
+      <div className="flex justify-center mt-6 space-x-2">
         <button
           className="px-3 py-1 bg-gray-300 rounded"
           onClick={() => handlePageChange(currentPage - 1)}
@@ -240,7 +225,6 @@ const Home = () => {
             className={`px-3 py-1 rounded ${
               currentPage === page ? "bg-blue-500 text-white" : "bg-gray-200"
             }`}
-           
             onClick={() => handlePageChange(page)}
           >
             {page}
@@ -255,14 +239,16 @@ const Home = () => {
         </button>
       </div>
 
-      {/* Modal Component */}
-      {isModalOpen &&   <HomeModal data={data} onClose={() => setIsModalOpen(false)} />}
-     <br></br>
-     <br></br>
-     <br></br>
-     <BasicVocab></BasicVocab>
+      {/* Exam Modal (Triggered by Exam button) */}
+      {isModalOpen && (
+        <HomeModal data={vocabData} onClose={() => setIsModalOpen(false)} />
+      )}
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
     </div>
   );
 };
 
-export default Home;
+export default BasicVocab;
