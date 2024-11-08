@@ -1,30 +1,39 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const HomeModal = ({ onClose, data }) => {
-  const itemsPerPage = 8;
+  const itemsPerPage = 11;
   const [currentPage, setCurrentPage] = useState(1);
-  const [editableData, setEditableData] = useState(data); // State to store edited data
-  const [isResultChecked, setIsResultChecked] = useState(false); // Track if result check is done
+  const [editableData, setEditableData] = useState(data);
+  const [isResultChecked, setIsResultChecked] = useState(false);
+  const [isMobileView, setIsMobileView] = useState(false); // New state for screen size check
 
-  // Calculate the number of pages
+  // Check for mobile screen width
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobileView(window.innerWidth <= 640); // Check if width is 640px or below
+    };
+    window.addEventListener("resize", handleResize);
+    handleResize(); // Initial check
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const totalPages = Math.ceil(data.length / itemsPerPage);
 
-  // Pagination handler
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
-
-    // Clear the "bangla" field when page changes
     const updatedData = editableData.map((item) => ({
       ...item,
-      bangla1: "", // Reset "bangla" field on page change
+      bangla1: "",
     }));
     setEditableData(updatedData);
   };
 
-  // Helper to create pagination range
   const generatePaginationRange = () => {
     const paginationRange = [];
-    const maxPageButtons = 5; // Max number of pages to show at a time
+    const maxPageButtons = isMobileView ? 3 : 5; // Adjust max buttons for mobile
     const lastPage = totalPages;
 
     let startPage = Math.max(1, currentPage - Math.floor(maxPageButtons / 2));
@@ -38,8 +47,13 @@ const HomeModal = ({ onClose, data }) => {
       paginationRange.push(i);
     }
 
-    // Add last page if not already included
-    if (!paginationRange.includes(lastPage) && lastPage > 5) {
+    // Add ellipsis and last page for mobile view if needed
+    if (isMobileView && totalPages > 3) {
+      if (!paginationRange.includes(lastPage)) {
+        paginationRange.push("...");
+        paginationRange.push(lastPage);
+      }
+    } else if (!paginationRange.includes(lastPage) && lastPage > 5) {
       paginationRange.push("...");
       paginationRange.push(lastPage);
     }
@@ -52,25 +66,23 @@ const HomeModal = ({ onClose, data }) => {
     currentPage * itemsPerPage
   );
 
-  // Handle the edit of Bangla column
   const handleBanglaChange = (e, index) => {
     const updatedData = [...editableData];
-    updatedData[index].bangla1 = e.target.value; // Update the Bangla text
-    setEditableData(updatedData); // Set the new data state
+    updatedData[index].bangla1 = e.target.value;
+    setEditableData(updatedData);
   };
 
-  // Result button click handler
   const handleResultClick = () => {
-    // Only check the current page data for matching
     const updatedData = [...editableData];
     const currentData = updatedData.slice(
       (currentPage - 1) * itemsPerPage,
       currentPage * itemsPerPage
     );
 
-    // Loop over the current page data and check the result
     currentData.forEach((item, idx) => {
-      const updatedBangla = item.bangla1 ? item.bangla1.trim().toLowerCase() : "";
+      const updatedBangla = item.bangla1
+        ? item.bangla1.trim().toLowerCase()
+        : "";
       const originalTitle = item.title ? item.title.trim().toLowerCase() : "";
 
       if (updatedBangla === originalTitle) {
@@ -86,7 +98,6 @@ const HomeModal = ({ onClose, data }) => {
     setIsResultChecked(true);
   };
 
-  // Get background color for text field based on result
   const getTextFieldStyle = (editedValue, originalValue, resultStatus) => {
     if (!isResultChecked) return "";
 
@@ -98,42 +109,55 @@ const HomeModal = ({ onClose, data }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-20 flex justify-center items-center z-50">
-      <div className="bg-white p-6 sm:p-8 rounded-lg shadow-lg w-full sm:w-5/6 max-w-5xl">
-        <div className="flex justify-between items-center mb-4">
+    <div  className={`fixed inset-0 bg-black bg-opacity-20 flex justify-center items-center z-50 ${
+      isMobileView ? "w-full h-full" : ""
+    }`}>
+      {/*  className={`fixed inset-0 bg-black bg-opacity-20 flex justify-center items-center z-50 ${
+    isMobileView ? "w-full h-full" : ""
+  }`} */}
+      <div className={`bg-white p-6 sm:p-8 rounded-lg shadow-lg w-full sm:w-5/6 max-w-5xl ${
+      isMobileView ? "h-full rounded-none" : ""
+    }`}>
+        <div className="flex justify-between items-center mb-4 -mt-4">
           <h3 className="text-xl font-semibold">Vocabulary Exam</h3>
           <button
             className="px-4 py-2 bg-blue-500 text-white rounded flex items-center"
             onClick={onClose}
           >
-            <span className="material-icons mr-2">close</span> {/* Material Icon */}
+            <span className="material-icons mr-2">close</span>
             Close
           </button>
         </div>
 
-        {/* Table inside modal */}
         <table className="table-auto w-full border-collapse mb-4 mt-2">
           <thead>
             <tr>
-              <th className="border border-gray-300 p-2 text-left">SL No</th>
+              <th className="border border-gray-300 p-2 text-left">S.N</th>
               <th className="border border-gray-300 p-2 text-left">Bangla</th>
-              <th className="border border-gray-300 p-2 text-left">Vocabulary</th>
+              <th className="border border-gray-300 p-2 text-left">
+                Vocabulary
+              </th>
             </tr>
           </thead>
           <tbody>
             {currentData.map((item, idx) => (
               <tr key={item.id} className={idx % 2 === 0 ? "bg-gray-100" : ""}>
-                <td className="border border-gray-300 p-2">
+                <td className="border border-gray-300 text-center">
                   {(currentPage - 1) * itemsPerPage + idx + 1}
                 </td>
-                <td className="border border-gray-300 p-2">{item?.bangla}</td>
-                <td className="border border-gray-300 p-2">
-                  {/* Input for Bangla column with dynamic styling */}
+                <td className="border border-gray-300 ">
+                 
+                  <p className="ml-2"> {item?.bangla}</p>
+                  </td>
+                <td className="border border-gray-300 ml-2">
                   <input
                     type="text"
                     value={item.bangla1}
                     onChange={(e) =>
-                      handleBanglaChange(e, (currentPage - 1) * itemsPerPage + idx)
+                      handleBanglaChange(
+                        e,
+                        (currentPage - 1) * itemsPerPage + idx
+                      )
                     }
                     className={`border px-2 py-1 w-full ${getTextFieldStyle(
                       item.bangla1,
@@ -147,7 +171,6 @@ const HomeModal = ({ onClose, data }) => {
           </tbody>
         </table>
 
-        {/* Pagination Controls */}
         <div className="flex justify-center mt-4 space-x-2">
           <button
             className="px-3 py-1 bg-gray-300 rounded"
@@ -157,7 +180,6 @@ const HomeModal = ({ onClose, data }) => {
             Previous
           </button>
 
-          {/* Generate pagination range */}
           {generatePaginationRange().map((page, idx) => (
             <button
               key={idx}
@@ -179,15 +201,25 @@ const HomeModal = ({ onClose, data }) => {
           </button>
         </div>
 
-        {/* Result Button */}
-        <div className="flex justify-center mt-4">
+        {/* <div className="flex mt-4 justify-center lg:justify-end lg:-mt-8">
           <button
             className="px-6 py-2 bg-blue-500 text-white rounded flex items-center"
             onClick={handleResultClick}
           >
-            <span className="material-icons mr-2">check_circle</span> Check Results
+            <span className="material-icons mr-2">check_circle</span> Check
+            Results
           </button>
-        </div>
+        </div> */}
+
+<div className="flex mt-4 justify-center lg:justify-end lg:-mt-8">
+  <button
+    className="w-full md:w-[200px] px-6 py-2 bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 text-white font-medium rounded-md shadow-lg flex items-center justify-center"
+    onClick={handleResultClick}
+  >
+    <span className="material-icons mr-2">check_circle</span> Check Results
+  </button>
+</div>
+
       </div>
     </div>
   );

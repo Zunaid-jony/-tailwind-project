@@ -96,18 +96,18 @@ const Resources = () => {
       </div>
 
       {/* Search input above the table */}
-      <div className="mb-16 -mt-6">
-        <div className="flex justify-between">
-          <p className="text-white">.</p>
-          <button
-            className="-mt-4 flex items-center justify-center gap-2 py-2 px-6 text-white bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg shadow-lg hover:from-blue-600 hover:to-indigo-700 focus:outline-none focus:ring-4 focus:ring-blue-400 transform transition-all duration-200 ease-in-out"
-            onClick={handleExamClick}
-          >
-            <span className="material-icons">school</span>
-            <span className="text-lg font-semibold">Exam</span>
-          </button>
-        </div>
-      </div>
+      <div className="md:mb-16 sm:mb-6 -mt-6">
+  <div className="flex flex-col md:flex-row md:justify-between items-center">
+    <p className="text-white hidden md:block">.</p>
+    <button
+      className="self-end mt-12 md:mt-0 flex items-center justify-center gap-2 py-2 px-6 text-white bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg shadow-lg hover:from-blue-600 hover:to-indigo-700 focus:outline-none focus:ring-4 focus:ring-blue-400 transform transition-all duration-200 ease-in-out"
+      onClick={handleExamClick}
+    >
+      <span className="material-icons">school</span>
+      <span className="text-lg font-semibold">Exam</span>
+    </button>
+  </div>
+</div>
 
       {/* Search input */}
       <div className="flex justify-between items-center mb-6">
@@ -140,7 +140,7 @@ const Resources = () => {
       </div>
 
       {/* Vocabulary Table */}
-      <table className="table-auto w-full">
+      <table className="table-auto w-full p-2">
         <thead>
           <tr>
             <th className="border border-black text-xs print:!border-black w-10">
